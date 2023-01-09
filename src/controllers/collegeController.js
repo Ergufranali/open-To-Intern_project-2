@@ -11,6 +11,7 @@ const createCollege=async function(req,res){
     if(!logoLink) return res.status(400).send({status:false,msg:"please enter the logoLink"})
    
     //if(!isValid(name)) return res.status(400).send({status:false,msg:"invalid Name"})
+    
     let saveData=await collegModel.create(data)
      res.status(201).send({status:true,data:saveData})
     }

@@ -5,4 +5,19 @@ function isValid(value){
     return true
 }
 
+let isREgexName = function (attribute) {
+    return (/^[a-zA-Z]{2,20}$/.test(attribute.trim()))
+}
+
+let regexFullname = function (attribute) {
+    return (/^[A-Za-z\s]{1,}[\,]{0,1}[A-Za-z\s]{0,}$/.test(attribute.trim()))
+}
+
+
+const regexIntern = function (name) {
+    let regex = /^[A-z]*$|^[A-z]+\s[A-z]*$/
+
+    return regex.test(name)
+}
+
 module.exports={isValid}
