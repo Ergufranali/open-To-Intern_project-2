@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+mongoose.set('strictQuery', true);
 const bodyParser = require('body-parser');
 const route = require('./routes/route');
 const app = express();
