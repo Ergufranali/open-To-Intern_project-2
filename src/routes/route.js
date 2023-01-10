@@ -14,7 +14,7 @@ route.get('/functionup/collegeDetails', collegeController.getInterns)
 
 //Default
 route.all('/*',function(req,res){
-    return res.status(400).send({status:false,msg:"Please give right path"})
+    return res.status(400).send({status:false,message:"Please give right path"})
 })
 
 module.exports = route;

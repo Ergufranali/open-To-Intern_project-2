@@ -51,7 +51,7 @@ exports.createIntern = async function (req,res){
     
    return res.status(201).send({status:true,message:"Intern Created Succesfully",data:data2})   
 }
-    catch(err) {res.status(500).send({status:false,msg: err.message})}
+    catch(err) {res.status(500).send({status:false,error: err.message})}
 }
 
 
