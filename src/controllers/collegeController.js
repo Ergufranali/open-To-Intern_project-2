@@ -12,14 +12,14 @@ exports.createCollege = async function(req, res) {
         const { name, fullName, logoLink } = req.body
 
         //name -------------------------------------------------------------------------------------
-        if (!name) {   return res.status(400).send({ status: false, message: "name is required" }) }
+        if (!name) {return res.status(400).send({ status: false, message: "name is required" }) }
         let final = {}
         if (!isValid(name)) {
-            return res.status(400).send({ status: false, message: "Invalid College name or college name is not mentioned." })
+            return res.status(400).send({ status: false, message: "Invalid College name." })
         }
 
         if (!/^[a-zA-Z]{2,10}$/.test(name)) {
-            return res.status(400).send({ status: false, message: "Invalid College Name" })
+            return res.status(400).send({ status: false, message: "name must be alphabetic" })
         }
 
         const duplicateName = await collegeModel.findOne({ name: name.toLowerCase() }) 
@@ -32,10 +32,10 @@ exports.createCollege = async function(req, res) {
 
         if (!fullName) {return res.status(400).send({ status: false, message: "Full-name is required" }) }
         if (!isValid(fullName)) {
-            return res.status(400).send({ status: false, message: "Invalid College full name or College full name is not mentioned." })
+            return res.status(400).send({ status: false, message: "Invalid College full name is not mentioned." })
         }
         if (!/^[a-zA-Z ,]{3,50}$/.test(fullName)) {
-            return res.status(400).send({ status: false, message: "Invalid College full name" })
+            return res.status(400).send({ status: false, message: "name must be alphabetic in full-name" })
         }
         const duplicate = await collegeModel.findOne({ fullName: fullName })
         if (duplicate) {
@@ -45,7 +45,7 @@ exports.createCollege = async function(req, res) {
 
         //logoLink--------------------------------------------------------------------------------------------
 
-        if (!logoLink) {   return res.status(400).send({ status: false, message: "logo-Link is required" }) }
+        if (!logoLink) {return res.status(400).send({ status: false, message: "logo-Link is required" }) }
         if (!isValid(logoLink)) {
             return res.status(400).send({ status: false, message: "Invalid College Logolink." })
         }
@@ -56,7 +56,7 @@ exports.createCollege = async function(req, res) {
 
         let saveData = await collegeModel.create(final)
 
-        return res.status(201).send({ status: true, data: saveData})
+        return res.status(201).send({ status: true,messgage:"College Created Successfully", data: saveData})
 
     } catch (error) {
         return res.status(500).send({ status: false, message: error.message })
@@ -66,24 +66,26 @@ exports.createCollege = async function(req, res) {
     // get intern ----------------------------------------------------------------------------
 
     exports.getInterns = async function(req,res){
-        
+        try{
        let collegeName = req.query.collegeName 
        if (!isValid(collegeName)) {
         return res.status(400).send({ status: false, message: "Invalid College name." })
     }  
-        let collegeId = await collegeModel.findOne({name:collegeName}).select({name:1,fullName:1,logoLink:1})
-        if(!collegeId) return res.status(404).send({status:false,msg:"data not found"})
+        let alphaCollege= collegeName.toLowerCase()
+        let collegeId = await collegeModel.findOne({name:alphaCollege}).select({name:1,fullName:1,logoLink:1})
+        if(!collegeId) return res.status(404).send({status:false,message:"data not found"})
 
         let intern = await internModel.find({collegeId: collegeId._id}).select({name:1,email:1,mobile:1})
         let final = { name: collegeId.name, fullName: collegeId.fullName, logoLink: collegeId.logoLink }
 
         if(intern.length == 0) {
             let data = {...final,intern:"no intern applied to this college"}
-            return res.status(200).send({status:false,msg:data})}
+            return res.status(200).send({status:false,message:data})}
 
         let finalData = {...final,intern:intern} 
         return  res.status(200).send({status:true,data:finalData})
-
+        
+        }catch(err){ return res.status(500).send({status:false, error:err.message})}
         
     }
 
