@@ -12,9 +12,13 @@ route.post('/functionup/interns', internController.createIntern)
 //-- get data ------------------------------------------------------
 route.get('/functionup/collegeDetails', collegeController.getInterns)
 
+
 //Default
 route.all('/*',function(req,res){
     return res.status(400).send({status:false,message:"Please give right path"})
 })
+
+//practice api
+// route.post('/practice/api',internController,createApi)
 
 module.exports = route;

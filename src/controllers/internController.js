@@ -20,9 +20,10 @@ exports.createIntern = async function (req,res){
 
 
     //mobile number -------------------------------------------------------------------------
+
     if(!mobile) return res.status(400).send({status:false,message:"mobile number is required"})
     if(!isValid(mobile))return res.status(400).send({status:false,message:"please enter valid mobile number"})
-    if (!/^[6-9]{1}[0-9]{9}$/.test(mobile)) {
+    if (!/^[6-9]{1}[0-9]{10}$/.test(mobile)) {
         return res.status(400).send({ status: false, message: "Invalid mobile number " })
     }
     let mob = await internModel.findOne({mobile:mobile})
@@ -31,6 +32,7 @@ exports.createIntern = async function (req,res){
 
 
     // email---------------------------------------------------------------------------------
+
     if(!email) return res.status(400).send({status:false,message:"email is required"})
     if(!isValid(email))return res.status(400).send({status:false,message:"please enter valid E-mail"})
     if(!validator.isEmail(email)) return res.status(400).send({status:false,message:"invalid E-mail"})
@@ -53,5 +55,3 @@ exports.createIntern = async function (req,res){
 }
     catch(err) {res.status(500).send({status:false,error: err.message})}
 }
-
-

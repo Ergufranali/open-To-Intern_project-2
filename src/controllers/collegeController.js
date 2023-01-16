@@ -4,7 +4,7 @@ const { isValid } = require("../validator/validation")
 const validator = require('validator')
 
 // regex for link ---------------------------------------------------------------
-const valid = /^https?:\/\/.*\.[s3].*\.(png|gif|webp|jpeg|jpg)\??.*$/
+const valid = /^https?:\/\/.*\.[s3].*\.(png|gif|webp|jpeg|jpg)\?$/
 
 // create-college api
 exports.createCollege = async function(req, res) {
